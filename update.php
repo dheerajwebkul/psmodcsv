@@ -18,7 +18,7 @@ function readCSV($csvFile){
 }
 
 // Set path to CSV file
-$csvFile = 'csv/PS Modules.csv';
+$csvFile = 'csv/test.csv';
 $csvArray = readCSV($csvFile);
 unset($csvArray[0]);
 
@@ -27,17 +27,18 @@ echo "Creating Array...<br/>";
 
 $moduleList = array();
 foreach ($csvArray as $key => $modules) {
-	$moduleList[$key]['module_name'] = isset($modules[0]) ? $modules[0] : '';
-	$moduleList[$key]['module_tech_name'] = isset($modules[1]) ? $modules[1] : '';
-	$moduleList[$key]['version'] = '1.6';
-	$moduleList[$key]['is_active'] = '1';
+	$moduleList[$key]['Year'] = isset($modules[0]) ? $modules[0] : '';
+	$moduleList[$key]['Make'] = isset($modules[1]) ? $modules[1] : '';
+	$moduleList[$key]['Model'] = '1.6';
+	$moduleList[$key]['Length'] = '1';
 }
 
 echo "Updating database...<br/>";
 
 foreach ($moduleList as $module) {
-	$insert = "INSERT INTO demo_modules (module_name,module_tech_name,version,is_active) VALUES ('".$module['module_name']."', '".$module['module_tech_name']."', '".$module['version']."', '".$module['is_active']."')";
-	$select = "SELECT id FROM demo_modules WHERE module_tech_name='".$module['module_tech_name']."'";
+	$insert = "INSERT INTO demo (Year, Make, Model, Length
+) VALUES ('".$module['Year']."', '".$module['Make']."', '".$module['Model']."', '".$module['Length']."')";
+	$select = "SELECT id FROM demo WHERE Make='".$module['Make']."'";
 
 	$getRow = Db::Connect()->query($select);
 	if (!$getRow->num_rows) {
